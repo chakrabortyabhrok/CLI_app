@@ -7,16 +7,16 @@ FILE_NAME= os.path.join(BASE_DIR, "tasks_v2.json")
 
 def load_tasks():
     if not os.path.exists(FILE_NAME):
-        return[]
+        return []
     try:
-        with open (FILE_NAME, "r"):
-            json.load(FILE_NAME)
+        with open (FILE_NAME, "r") as file:
+            return json.load(file)
     except json.JSONDecodeError:
-        return[]
+        return []
     
 def save_tasks(tasks):
-    with open (FILE_NAME, "w"):
-        json.dump(FILE_NAME, tasks, indent=4)
+    with open (FILE_NAME, "w") as file:
+        json.dump(file, tasks, indent=4)
         
 # --- LOGIC LAYER (The "Brain") ---
 def get_new_id(tasks):
@@ -65,10 +65,68 @@ Exit app        - e
 def print_tasks(tasks):
     if not tasks:
         print("-- No tasks found --")
-    print("ID  |         TASKS         | STATUS\n")
+        return
+    print("\nID  |         TASKS         | STATUS")
     print("-"*40)
     for task in tasks:
-        print(f"{task["id"]: < 3} {task["name"]: <24} {task["status"]}")
-        print("-"*40)
-        return
+        print(f"{task["id"]: < 3} | {task["name"]: <24} | {task["status"]}")
+    print("-"*40)
+        
 
+# --- MAIN PROGRAM (The "Glue") ---
+def main():
+    tasks = load_tasks()
+    print("-- Welcome to the Task Manager!! --")
+    while True:
+        print(MENU)
+        choice = input("Enter your choice: \n").lower().strip()
+
+        if choice == "a":
+            task_name = input("Enter the task name: \n")
+            add_new_task(tasks, task_name)
+            save_tasks(tasks)
+            print("-- Task added succesfuly --")
+
+        elif choice == "s":
+            print_tasks(tasks)
+
+        elif choice == "d":
+            try:
+                task_id = int(input("Enter the task ID: \n"))
+                if delete_task(tasks, task_id):
+                    save_tasks(tasks)
+                    print("-- Task deleted succesfuly --")
+                else:
+                    print("-- Enter a valid ID --")
+            except ValueError:
+                print("-- Invalid Format --")
+
+        elif choice == "u":
+            task_id = int(input("Enter the task ID: \n"))
+            try:
+                if mark_as_done(tasks, task_id):
+                        save_tasks(tasks)
+                        print("-- Task succesfuly updated --")
+                else:
+                    print("-- Enter a valid ID --")
+            except ValueError:
+                print("-- Invalid Format --")
+        
+        elif choice == "p":
+            print_tasks(pending_tasks(tasks))
+
+        elif choice == "c":
+            print_tasks(completed_tasks(tasks))
+            
+        elif choice == "e":
+            print("-- Goodbye! --")
+            break
+
+        else:
+            print("-- Invalid choice --")
+
+
+
+
+if __name__ == "__main__":
+    main()
