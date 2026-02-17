@@ -1,0 +1,142 @@
+[
+    {
+        "id": 1,
+        "name": "Take a walk",
+        "status": "pending"
+    },
+    {
+        "id": 2,
+        "name": "Practice guitar",
+        "status": "done"
+    },
+    {
+        "id": 3,
+        "name": "Read a book",
+        "status": "pending"
+    },
+    {
+        "id": 4,
+        "name": "Call a freind",
+        "status": "done"
+    },
+    {
+        "id": 5,
+        "name": "Do yoga",
+        "status": "pending"
+    },
+    {
+        "id": 6,
+        "name": "Learn a new language",
+        "status": "pending"
+    },
+    {
+        "id": 7,
+        "name": "Cook a new recipe",
+        "status": "done"
+    },
+    {
+        "id": 8,
+        "name": "Organise your closet",
+        "status": "pending"
+    },
+    {
+        "id": 9,
+        "name": "Watch a movie",
+        "status": "pending"
+    },
+    {
+        "id": 10,
+        "name": "Meditate",
+        "status": "done"
+    },
+    {
+        "id": 11,
+        "name": "Go jogging",
+        "status": "pending"
+    },
+    {
+        "id": 12,
+        "name": "Write a journal entry",
+        "status": "done"
+    },
+    {
+        "id": 13,
+        "name": "Plant flowers",
+        "status": "pending"
+    },
+    {
+        "id": 14,
+        "name": "Attend a concert",
+        "status": "done"
+    },
+    {
+        "id": 15,
+        "name": "Learn a new dance",
+        "status": "pending"
+    },
+    {
+        "id": 16,
+        "name": "Visit a museum",
+        "status": "done"
+    },
+    {
+        "id": 17,
+        "name": "Start a garden",
+        "status": "pending"
+    },
+    {
+        "id": 18,
+        "name": "Try a new restaurant",
+        "status": "done"
+    },
+    {
+        "id": 19,
+        "name": "Volunteer at a charity",
+        "status": "pending"
+    },
+    {
+        "id": 20,
+        "name": "Go on a road trip",
+        "status": "done"
+    },
+    {
+        "id": 21,
+        "name": "Paint a picture",
+        "status": "pending"
+    },
+    {
+        "id": 22,
+        "name": "Learn to play chess",
+        "status": "done"
+    },
+    {
+        "id": 23,
+        "name": "Go hiking",
+        "status": "pending"
+    },
+    {
+        "id": 24,
+        "name": "Start a blog",
+        "status": "done"
+    },
+    {
+        "id": 25,
+        "name": "Practice photography",
+        "status": "pending"
+    },
+    {
+        "id": 26,
+        "name": "Attend a workshop",
+        "status": "done"
+    },
+    {
+        "id": 28,
+        "name": "Go to a comedy show",
+        "status": "done"
+    },
+    {
+        "id": 29,
+        "name": "Take a cooking class",
+        "status": "done"
+    }
+]
