@@ -1,8 +1,7 @@
-#first do this full 3 times (2 times by watching process, 1 time without)
-# then push to github with help of tutorial
 import json
 import os
 
+# --- PERSISTENCE LAYER ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FILE_NAME= os.path.join(BASE_DIR, "tasks_v2.json")
 
@@ -19,7 +18,7 @@ def save_tasks(tasks):
     with open (FILE_NAME, "w"):
         json.dump(FILE_NAME, tasks, indent=4)
         
-#logic layer
+# --- LOGIC LAYER (The "Brain") ---
 def get_new_id(tasks):
     if not tasks:
         return 1
@@ -52,7 +51,8 @@ def pending_tasks(tasks):
     return [t for t in tasks if t["status"] == "pending"]
 def completed_tasks(tasks):
     return [t for t in tasks if t["status"] == "done"]
-#UI LAYER-
+
+# --- UI LAYER (The "Face") ---
 MENU = """
 Add Task        - a
 Delete Task     - d
@@ -62,3 +62,13 @@ Pending Tasks   - p
 Completed Tasks - c
 Exit app        - e
 """
+def print_tasks(tasks):
+    if not tasks:
+        print("-- No tasks found --")
+    print("ID  |         TASKS         | STATUS\n")
+    print("-"*40)
+    for task in tasks:
+        print(f"{task["id"]: < 3} {task["name"]: <24} {task["status"]}")
+        print("-"*40)
+        return
+
