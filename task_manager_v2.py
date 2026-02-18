@@ -9,14 +9,14 @@ def load_tasks():
     if not os.path.exists(FILE_NAME):
         return []
     try:
-        with open (FILE_NAME, "r") as file:
+        with open(FILE_NAME, "r") as file:
             return json.load(file)
     except json.JSONDecodeError:
         return []
     
 def save_tasks(tasks):
-    with open (FILE_NAME, "w") as file:
-        json.dump(file, tasks, indent=4)
+    with open(FILE_NAME, "w") as file:
+        json.dump(tasks,file, indent=4)
         
 # --- LOGIC LAYER (The "Brain") ---
 def get_new_id(tasks):
@@ -69,7 +69,7 @@ def print_tasks(tasks):
     print("\nID  |         TASKS         | STATUS")
     print("-"*40)
     for task in tasks:
-        print(f"{task["id"]: < 3} | {task["name"]: <24} | {task["status"]}")
+        print(f"{task["id"]:<3} | {task["name"]:<24} | {task["status"]}")
     print("-"*40)
         
 

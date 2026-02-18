@@ -122,7 +122,7 @@
     {
         "id": 25,
         "name": "Practice photography",
-        "status": "pending"
+        "status": "done"
     },
     {
         "id": 26,
@@ -138,5 +138,10 @@
         "id": 29,
         "name": "Take a cooking class",
         "status": "done"
+    },
+    {
+        "id": 30,
+        "name": "pick parcel",
+        "status": "pending"
     }
 ]
