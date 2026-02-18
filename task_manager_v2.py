@@ -47,6 +47,13 @@ def mark_as_done(tasks, task_id):
             return True
     return False
 
+def mark_as_pending(tasks, task_id):
+    for task in tasks:
+        if task["id"] == task_id:
+            task["status"] = "pending"
+            return True
+    return False
+
 def pending_tasks(tasks):
     return [t for t in tasks if t["status"] == "pending"]
 def completed_tasks(tasks):
@@ -54,13 +61,14 @@ def completed_tasks(tasks):
 
 # --- UI LAYER (The "Face") ---
 MENU = """
-Add Task        - a
-Delete Task     - d
-Show Tasks      - s
-Update Tasks    - u
-Pending Tasks   - p
-Completed Tasks - c
-Exit app        - e
+Add Task              - a
+Delete Task           - d
+Show Tasks            - s
+Mark Tasks as done    - u
+Mark Tasks as pending - b
+Pending Tasks         - p
+Completed Tasks       - c
+Exit app              - e
 """
 def print_tasks(tasks):
     if not tasks:
@@ -101,12 +109,24 @@ def main():
             except ValueError:
                 print("-- Invalid Format --")
 
-        elif choice == "u":
-            task_id = int(input("Enter the task ID: \n"))
+        elif choice == "b":
             try:
+                task_id = int(input("Enter the task ID: \n"))
+                if mark_as_pending(tasks, task_id):
+                    save_tasks(tasks)
+                    print("-- Task succesfuly updated --")
+                else:
+                    print("-- Enter a valid ID --")
+            except ValueError:
+                print("-- Invalid Format --")
+
+
+        elif choice == "u":
+            try:
+                task_id = int(input("Enter the task ID: \n"))
                 if mark_as_done(tasks, task_id):
-                        save_tasks(tasks)
-                        print("-- Task succesfuly updated --")
+                    save_tasks(tasks)
+                    print("-- Task succesfuly updated --")
                 else:
                     print("-- Enter a valid ID --")
             except ValueError:
