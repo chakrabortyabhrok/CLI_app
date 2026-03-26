@@ -1,44 +1,48 @@
 import json
 import os
+from tasks import Tasks
 
-# --- PERSISTENCE LAYER ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FILE_NAME= os.path.join(BASE_DIR, "tasks_v2.json")
+class TaskManager:
+    def __init__(self):
+        self._tasks = []
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        self.file_name= os.path.join(BASE_DIR, "tasks.json")
 
-def load_tasks():
-    if not os.path.exists(FILE_NAME):
-        return []
-    try:
-        with open(FILE_NAME, "r") as file:
-            return json.load(file)
-    except json.JSONDecodeError:
-        return []
-    
-def save_tasks(tasks):
-    with open(FILE_NAME, "w") as file:
-        json.dump(tasks,file, indent=4)
+    def load_tasks(self):
+        if not os.path.exists(self.file_name):
+            return []
         
-# --- LOGIC LAYER (The "Brain") ---
-def get_new_id(tasks):
-    if not tasks:
-        return 1
-    else:
-        return max(t["id"] for t in tasks ) + 1
+        try:
+            with open(self.file_name, "r") as file:
+                return json.load(file)
+            print(f"Loaded: {len(self.file_name)} tasks")
+        except json.JSONDecodeError:
+            return []
     
-def add_new_task(tasks, task_name):
-    new_task = {
-        "id": get_new_id(tasks),
-        "name": task_name,
-        "status": "pending"
-    }
-    tasks.append(new_task)
+    def save_tasks(tasks):
+        with open(file, "w") as file:
+            json.dump(tasks,file, indent=4)
+        
+    def get_new_id(tasks):
+        if not tasks:
+            return 1
+        else:
+            return max(t["id"] for t in tasks ) + 1
+    
+    def add_new_task(tasks, task_name):
+        new_task = {
+            "id": get_new_id(tasks),
+            "name": task_name,
+            "status": "pending"
+        }
+        tasks.append(new_task)
 
-def delete_task(tasks, task_id):
-    for task in tasks:
-        if task["id"] == task_id:
-            tasks.remove(task)
-            return True
-    return False
+    def delete_task(tasks, task_id):
+        for task in tasks:
+            if task["id"] == task_id:
+                tasks.remove(task)
+                return True
+        return False
         
 def mark_as_done(tasks, task_id):
     for task in tasks:
@@ -59,7 +63,6 @@ def pending_tasks(tasks):
 def completed_tasks(tasks):
     return [t for t in tasks if t["status"] == "done"]
 
-# --- UI LAYER (The "Face") ---
 MENU = """
 Add Task              - a
 Delete Task           - d
@@ -80,8 +83,6 @@ def print_tasks(tasks):
         print(f"{task["id"]:<3} | {task["name"]:<24} | {task["status"]}")
     print("-"*40)
         
-
-# --- MAIN PROGRAM (The "Glue") ---
 def main():
     tasks = load_tasks()
     print("-- Welcome to the Task Manager!! --")
