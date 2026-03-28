@@ -22,8 +22,10 @@ def main():
 
         if choice == "a":
             task_name = input("Enter the task name: \n")
-            manager.add_new_task(task_name)
-            manager.save_tasks()
+            new_id = manager.get_new_id()
+            status = "pending"
+            new_task = Tasks(new_id,task_name, status)
+            manager.add_new_task(new_task)
             print("-- Task added succesfuly --")
 
         elif choice == "s":

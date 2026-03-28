@@ -132,7 +132,7 @@
     {
         "id": 28,
         "name": "Go to a comedy show",
-        "status": "pending"
+        "status": "done"
     },
     {
         "id": 29,
@@ -142,6 +142,11 @@
     {
         "id": 30,
         "name": "pick parcel",
+        "status": "pending"
+    },
+    {
+        "id": 31,
+        "name": "test",
         "status": "pending"
     }
 ]
