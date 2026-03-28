@@ -11,7 +11,7 @@ def main():
     Show Tasks            - s
     Mark Tasks as done    - u
     Mark Tasks as pending - b
-    Pending Tasks         - p
+    Show Pending Tasks    - p
     Completed Tasks       - c
     Exit app              - e
     """
@@ -24,12 +24,12 @@ def main():
             task_name = input("Enter the task name: \n")
             new_id = manager.get_new_id()
             status = "pending"
-            new_task = Tasks(new_id,task_name, status)
+            new_task = Tasks(new_id, task_name, status)
             manager.add_new_task(new_task)
             print("-- Task added succesfuly --")
 
         elif choice == "s":
-            manager.print_tasks()
+            manager.print_tasks(manager._tasks)
 
         elif choice == "d":
             try:
@@ -47,12 +47,11 @@ def main():
                 task_id = int(input("Enter the task ID: \n"))
                 if manager.mark_as_pending(task_id):
                     manager.save_tasks()
-                    print("-- Task succesfuly updated --")
+                    print("-- Task updated succesfuly --")
                 else:
                     print("-- Enter a valid ID --")
             except ValueError:
                 print("-- Invalid Format --")
-
 
         elif choice == "u":
             try:
@@ -65,19 +64,15 @@ def main():
             except ValueError:
                 print("-- Invalid Format --")
         
-        elif choice == "p":
-            manager.print_tasks(manager.pending_tasks())
+        elif choice == "p" or choice == "c":
+            manager.print_specific_tasks(choice)
 
-        elif choice == "c":
-            manager.print_tasks(manager.completed_tasks())
-            
         elif choice == "e":
             print("-- Goodbye! --")
             break
 
         else:
             print("-- Invalid choice --")
-
 
 if __name__ == "__main__":
     main()

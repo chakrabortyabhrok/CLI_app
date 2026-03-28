@@ -14,3 +14,13 @@ class Tasks:
     
     def display_row(self):
         return(f"{self.id:<3} | {self.name:<24} | {self.status}")
+    
+    
+    
+    #def display_filtered_row(self, filtered):
+    #    print("\nID  |           TASKS          | STATUS")
+    #    print("-"*40)
+    #    print(f"{self.id:<3} | {self.name:<24} | {self.status}")
+    #    print("-"*40)
+        #if self.status == filtered:
+            

@@ -127,7 +127,7 @@
     {
         "id": 26,
         "name": "Attend a workshop",
-        "status": "done"
+        "status": "pending"
     },
     {
         "id": 28,
@@ -142,11 +142,6 @@
     {
         "id": 30,
         "name": "pick parcel",
-        "status": "pending"
-    },
-    {
-        "id": 31,
-        "name": "test",
         "status": "pending"
     }
 ]
