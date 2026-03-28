@@ -3,151 +3,96 @@ import os
 from tasks import Tasks
 
 class TaskManager:
+
     def __init__(self):
         self._tasks = []
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.file_name= os.path.join(BASE_DIR, "tasks.json")
+        self.file_name = os.path.join(BASE_DIR, "tasks.json")
 
     def load_tasks(self):
         if not os.path.exists(self.file_name):
-            return []
+            print("-- File not found --\n")
+            return
         
         try:
             with open(self.file_name, "r") as file:
-                return json.load(file)
-            print(f"Loaded: {len(self.file_name)} tasks")
-        except json.JSONDecodeError:
-            return []
-    
-    def save_tasks(tasks):
-        with open(file, "w") as file:
-            json.dump(tasks,file, indent=4)
+                raw_data = json.load(file)
+            if isinstance(raw_data, list):
+                tasks_data = raw_data
+            else:
+                raise ValueError("-- Invalid JSON Format --")
+            
+            self._tasks = []
+            for t in tasks_data:
+                new_obj = Tasks(
+                    id=t["id"],
+                    name=t["name"],
+                    status=t["status"]
+                )
+                self._tasks.append(new_obj)
+            print(f"Loaded: {len(self._tasks)} tasks")
         
-    def get_new_id(tasks):
-        if not tasks:
+        except Exception as e:
+            print(f"Error Loading: {e}")
+    
+    def save_tasks(self):
+        data = [task.to_dict() for task in self._tasks]
+        with open(self.file_name, "w") as file:
+            json.dump(data, file, indent=4)
+        
+    def get_new_id(self):
+        if not self._tasks:
             return 1
         else:
-            return max(t["id"] for t in tasks ) + 1
+            return max(task.id for task in self._tasks) + 1
     
-    def add_new_task(tasks, task_name):
-        new_task = {
-            "id": get_new_id(tasks),
-            "name": task_name,
-            "status": "pending"
-        }
-        tasks.append(new_task)
+    def add_new_task(self, new_task):
+        self._tasks.append(new_task)
+        self.save_tasks()
 
-    def delete_task(tasks, task_id):
-        for task in tasks:
-            if task["id"] == task_id:
-                tasks.remove(task)
+    def delete_task(self, task_id):
+        for task in self._tasks[:]:
+            if task.id == task_id:
+                self._tasks.remove(task)
                 return True
         return False
         
-def mark_as_done(tasks, task_id):
-    for task in tasks:
-        if task["id"] == task_id:
-            task["status"] = "done"
-            return True
-    return False
+    def mark_as_done(self, task_id):
+        for task in self._tasks:
+            if task.id == task_id:
+                task.status = "done"
+                return True
+        return False
 
-def mark_as_pending(tasks, task_id):
-    for task in tasks:
-        if task["id"] == task_id:
-            task["status"] = "pending"
-            return True
-    return False
+    def mark_as_pending(self, task_id):
+        for task in self._tasks:
+            if task.id == task_id:
+                task.status = "pending"
+                return True
+        return False
 
-def pending_tasks(tasks):
-    return [t for t in tasks if t["status"] == "pending"]
-def completed_tasks(tasks):
-    return [t for t in tasks if t["status"] == "done"]
+    def pending_tasks(self):
+        return [t for t in self._tasks if t.status == "pending"]
 
-MENU = """
-Add Task              - a
-Delete Task           - d
-Show Tasks            - s
-Mark Tasks as done    - u
-Mark Tasks as pending - b
-Pending Tasks         - p
-Completed Tasks       - c
-Exit app              - e
-"""
-def print_tasks(tasks):
-    if not tasks:
-        print("-- No tasks found --")
-        return
-    print("\nID  |         TASKS         | STATUS")
-    print("-"*40)
-    for task in tasks:
-        print(f"{task["id"]:<3} | {task["name"]:<24} | {task["status"]}")
-    print("-"*40)
+    def completed_tasks(self):
+        return [t for t in self._tasks if t.status == "done"]
+
+    def print_tasks(self, task_list):
+        if not task_list:
+            print("-- No tasks found --")
+            return
         
-def main():
-    tasks = load_tasks()
-    print("-- Welcome to the Task Manager!! --")
-    while True:
-        print(MENU)
-        choice = input("Enter your choice: \n").lower().strip()
-
-        if choice == "a":
-            task_name = input("Enter the task name: \n")
-            add_new_task(tasks, task_name)
-            save_tasks(tasks)
-            print("-- Task added succesfuly --")
-
-        elif choice == "s":
-            print_tasks(tasks)
-
-        elif choice == "d":
-            try:
-                task_id = int(input("Enter the task ID: \n"))
-                if delete_task(tasks, task_id):
-                    save_tasks(tasks)
-                    print("-- Task deleted succesfuly --")
-                else:
-                    print("-- Enter a valid ID --")
-            except ValueError:
-                print("-- Invalid Format --")
-
-        elif choice == "b":
-            try:
-                task_id = int(input("Enter the task ID: \n"))
-                if mark_as_pending(tasks, task_id):
-                    save_tasks(tasks)
-                    print("-- Task succesfuly updated --")
-                else:
-                    print("-- Enter a valid ID --")
-            except ValueError:
-                print("-- Invalid Format --")
+        print("\nID  |           TASKS          | STATUS")
+        print("-" * 40)
+        for task in task_list:
+            print(task.display_row())
+        print("-" * 40)
 
 
-        elif choice == "u":
-            try:
-                task_id = int(input("Enter the task ID: \n"))
-                if mark_as_done(tasks, task_id):
-                    save_tasks(tasks)
-                    print("-- Task succesfuly updated --")
-                else:
-                    print("-- Enter a valid ID --")
-            except ValueError:
-                print("-- Invalid Format --")
-        
-        elif choice == "p":
-            print_tasks(pending_tasks(tasks))
-
-        elif choice == "c":
-            print_tasks(completed_tasks(tasks))
-            
-        elif choice == "e":
-            print("-- Goodbye! --")
-            break
-
+    def print_specific_tasks(self, user_demand):
+        if user_demand == "p":
+            self.print_tasks(self.pending_tasks())
+        elif user_demand == "c":
+            self.print_tasks(self.completed_tasks())
         else:
-            print("-- Invalid choice --")
-
-
-
-
-if __name__ == "__main__":
-    main()
+            print("-- Invalid filter choice --")

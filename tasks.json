@@ -127,12 +127,12 @@
     {
         "id": 26,
         "name": "Attend a workshop",
-        "status": "done"
+        "status": "pending"
     },
     {
         "id": 28,
         "name": "Go to a comedy show",
-        "status": "pending"
+        "status": "done"
     },
     {
         "id": 29,
